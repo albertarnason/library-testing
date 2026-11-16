@@ -2,9 +2,12 @@ namespace Library.Core;
 
 public class FeeCalculator
 {
+    public const decimal FeePerDay = 5m;
+    public const decimal MaxFee = 100m;
+
     public decimal Calculate(DateTime due, DateTime returned)
     {
-        var daysLate = (returned.Date - due.Date).Days;
-        return Math.Min(100m, Math.Max(0, daysLate) * 5m);
+        var daysLate = Math.Max(0, (returned.Date - due.Date).Days);
+        return Math.Min(MaxFee, daysLate * FeePerDay);
     }
 }
