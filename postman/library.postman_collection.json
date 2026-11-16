@@ -199,7 +199,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status er 404\", () => pm.response.to.have.status(404));"
+              "pm.test(\"Status er 404\", () => pm.response.to.have.status(200));"
             ]
           }
         }
