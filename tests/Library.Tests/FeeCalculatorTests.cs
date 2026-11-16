@@ -33,4 +33,19 @@ public class FeeCalculatorTests
         // Assert
         Assert.AreEqual(5m, fee);
     }
+
+    [TestMethod]
+    public void Calculate_AfleveretFoerTid_Returnerer0()
+    {
+        // Arrange
+        var calculator = new FeeCalculator();
+        var due = new DateTime(2026, 11, 30);
+        var returned = new DateTime(2026, 11, 25);
+
+        // Act
+        decimal fee = calculator.Calculate(due, returned);
+
+        // Assert
+        Assert.AreEqual(0m, fee);
+    }
 }
