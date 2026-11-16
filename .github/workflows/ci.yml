@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test tests/Library.Tests --no-build
+
+      - name: Start API in background
+        run: |
+          dotnet run --no-build --project src/Library.Api --urls http://localhost:5000 --no-launch-profile > api.log 2>&1 &
+          curl --retry 30 --retry-delay 1 --retry-connrefused -s -o /dev/null http://localhost:5000/api/loans/99999
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Newman
+        run: newman run postman/library.postman_collection.json -e postman/ci.postman_environment.json
