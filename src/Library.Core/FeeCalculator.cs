@@ -4,6 +4,7 @@ public class FeeCalculator
 {
     public decimal Calculate(DateTime due, DateTime returned)
     {
-        return 0m;
+        var daysLate = (returned.Date - due.Date).Days;
+        return daysLate * 5m;
     }
 }
