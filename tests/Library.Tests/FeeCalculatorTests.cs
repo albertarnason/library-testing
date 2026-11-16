@@ -63,4 +63,19 @@ public class FeeCalculatorTests
         // Assert
         Assert.AreEqual(50m, fee);
     }
+
+    [TestMethod]
+    public void Calculate_30DageForSent_Returnerer100()
+    {
+        // Arrange
+        var calculator = new FeeCalculator();
+        var due = new DateTime(2026, 11, 30);
+        var returned = new DateTime(2026, 12, 30);
+
+        // Act
+        decimal fee = calculator.Calculate(due, returned);
+
+        // Assert
+        Assert.AreEqual(100m, fee);
+    }
 }
